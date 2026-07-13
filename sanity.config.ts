@@ -10,8 +10,8 @@ export default defineConfig({
   basePath: "/studio",
   projectId,
   dataset,
-  name: "royal-hermitage",
-  title: "Royal Hermitage CMS",
+  name: "ownnest",
+  title: "OwnNest CMS",
   schema: {
     types: schemaTypes,
   },

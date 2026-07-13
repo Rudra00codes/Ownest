@@ -2,12 +2,5 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "env": {
-    "NEXT_PUBLIC_SANITY_PROJECT_ID": "@sanity_project_id",
-    "NEXT_PUBLIC_SANITY_DATASET": "@sanity_dataset",
-    "NEXT_PUBLIC_SANITY_API_VERSION": "@sanity_api_version",
-    "SANITY_API_TOKEN": "@sanity_api_token",
-    "NEXT_PUBLIC_SITE_URL": "@site_url"
-  }
+  "installCommand": "npm install"
 }
