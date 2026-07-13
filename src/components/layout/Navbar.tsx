@@ -1,138 +1,126 @@
+"use client";
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const Navbar = () => {
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Properties", href: "/properties" },
+  { label: "Services", href: "/services" },
+  { label: "Contact", href: "/contact" },
+];
+
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  
+  // Close menu on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   return (
-    <header className={cn(
-      "w-full fixed top-0 left-0 z-50 transition-all duration-500",
-      isScrolled 
-        ? "backdrop-blur-md bg-white/80 shadow-md py-3" 
-        : "backdrop-blur-sm bg-white/30 py-5"
-    )}>
-      <div className="container mx-auto flex justify-between items-center px-4 md:px-6">
-        <Link 
-          to="/" 
-          className="flex items-center space-x-2 transition-transform duration-300 hover:scale-105"
-        >
-          <span className="text-2xl font-bold text-royal-primary font-playfair">Royal Hermitage</span>
+    <header
+      className={cn(
+        "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[calc(100%-2rem)] max-w-7xl",
+        isScrolled
+          ? "top-4 bg-black/20 border border-white/20 backdrop-blur-sm rounded-[1rem] py-3 px-6"
+          : "top-8 bg-black/20 backdrop-blur-sm rounded-[1rem] py-2 px-4 md:px-8"
+      )}
+    >
+      <div className="flex items-center justify-between w-full">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 text-white hover:opacity-80 transition-opacity">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18"/><path d="M9 8h1"/><path d="M9 12h1"/><path d="M9 16h1"/><path d="M14 8h1"/><path d="M14 12h1"/><path d="M14 16h1"/><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/></svg>
+          <span className="text-xl font-normal tracking-widest uppercase">OwnNest</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
-          <NavLink to="/" active={location.pathname === "/"}>Home</NavLink>
-          <NavLink to="/about" active={location.pathname === "/about"}>About</NavLink>
-          <NavLink to="/properties" active={location.pathname === "/properties"}>Properties</NavLink>
-          <NavLink to="/services" active={location.pathname === "/services"}>Services</NavLink>
-          <NavLink to="/contact" active={location.pathname === "/contact"}>Contact</NavLink>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-normal text-white">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "transition-colors duration-300 hover:text-white/80 relative",
+                pathname === link.href ? "text-white" : "text-white/80"
+              )}
+            >
+              {link.label}
+              {pathname === link.href && (
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-white rounded-full opacity-50" />
+              )}
+            </Link>
+          ))}
         </nav>
 
-        <div className="hidden md:block">
-          <Button 
-            asChild 
-            className="bg-royal-primary hover:bg-royal-accent text-white transition-all duration-300 hover:scale-105 hover:shadow-lg"
-          >
-            <Link to="/contact">Contact Us</Link>
-          </Button>
+        {/* CTA Button */}
+        <div className="hidden md:flex items-center">
+          <Link href="/contact" className="flex items-center gap-3 bg-white text-black px-5 py-2.5 rounded-full text-sm font-medium hover:bg-white/90 transition-all">
+            Request a Call
+            <div className="bg-black text-white rounded-full p-1">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+            </div>
+          </Link>
         </div>
 
-        {/* Mobile Navigation Button */}
-        <button 
-          className={cn(
-            "md:hidden text-royal-primary p-2 rounded-full transition-all duration-300",
-            isOpen ? "bg-royal-primary/10" : "hover:bg-royal-primary/5"
-          )}
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
+        {/* Mobile Toggle */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden p-2 rounded-lg text-white transition-colors hover:bg-white/10"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      <div className={cn(
-        "md:hidden backdrop-blur-md bg-white/90 w-full absolute top-full left-0 shadow-md transform transition-all duration-300",
-        isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-      )}>
-        <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-          <MobileNavLink to="/" onClick={toggleMenu} active={location.pathname === "/"}>Home</MobileNavLink>
-          <MobileNavLink to="/about" onClick={toggleMenu} active={location.pathname === "/about"}>About</MobileNavLink>
-          <MobileNavLink to="/properties" onClick={toggleMenu} active={location.pathname === "/properties"}>Properties</MobileNavLink>
-          <MobileNavLink to="/services" onClick={toggleMenu} active={location.pathname === "/services"}>Services</MobileNavLink>
-          <MobileNavLink to="/contact" onClick={toggleMenu} active={location.pathname === "/contact"}>Contact</MobileNavLink>
-          <Button 
-            asChild 
-            className="bg-royal-primary hover:bg-royal-accent text-white w-full transition-all duration-300 hover:scale-[1.02]"
-          >
-            <Link to="/contact" onClick={toggleMenu}>Contact Us</Link>
-          </Button>
+      {/* Mobile Menu */}
+      <div
+        className={cn(
+          "md:hidden overflow-hidden transition-all duration-500",
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        )}
+      >
+        <div className="glass-dark border-t border-white/10">
+          <div className="container mx-auto px-4 py-6 flex flex-col gap-1">
+            {navLinks.map((link, i) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "flex items-center py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200",
+                  pathname === link.href
+                    ? "text-royal-secondary bg-royal-secondary/10"
+                    : "text-white/80 hover:text-white hover:bg-white/5 hover:translate-x-1"
+                )}
+                style={{ animationDelay: `${i * 60}ms` }}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="mt-4 pt-4 border-t border-white/10">
+              <Link
+                href="/contact"
+                className="flex items-center justify-center gap-3 bg-white text-black px-5 py-3 rounded-full text-sm font-medium hover:bg-white/90 transition-all w-full"
+              >
+                Request a Call
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </header>
   );
-};
-
-interface NavLinkProps {
-  to: string;
-  children: React.ReactNode;
-  active?: boolean;
 }
-
-const NavLink = ({ to, children, active }: NavLinkProps) => (
-  <Link 
-    to={to} 
-    className={cn(
-      "relative font-medium transition-all duration-300",
-      active 
-        ? "text-royal-primary" 
-        : "text-royal-dark hover:text-royal-primary",
-      "after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-royal-primary after:origin-bottom-right after:transition-transform after:duration-300",
-      "hover:after:scale-x-100 hover:after:origin-bottom-left"
-    )}
-  >
-    {children}
-  </Link>
-);
-
-interface MobileNavLinkProps extends NavLinkProps {
-  onClick: () => void;
-}
-
-const MobileNavLink = ({ to, onClick, children, active }: MobileNavLinkProps) => (
-  <Link 
-    to={to} 
-    className={cn(
-      "transition-all duration-300 py-2 border-b border-gray-100 w-full block",
-      active 
-        ? "text-royal-primary translate-x-2" 
-        : "text-royal-dark hover:text-royal-primary hover:translate-x-2"
-    )}
-    onClick={onClick}
-  >
-    {children}
-  </Link>
-);
-
-export default Navbar;
