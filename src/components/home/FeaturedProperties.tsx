@@ -72,7 +72,7 @@ export default async function FeaturedProperties() {
   const properties = await getFeaturedProperties();
 
   return (
-    <section className="py-24 bg-muted/30">
+    <section className="py-24 bg-black">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <SectionTitle

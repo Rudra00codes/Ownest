@@ -117,8 +117,8 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-royal-gradient" />
+      <section className="relative py-20 overflow-hidden bg-black">
+        {/* <div className="absolute inset-0 bg-royal-gradient" /> */}
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-royal-secondary/50 to-transparent" />
         <div className="relative container mx-auto px-4 text-center text-white">
           <h2 className="text-4xl md:text-5xl font-bold font-playfair mb-6">

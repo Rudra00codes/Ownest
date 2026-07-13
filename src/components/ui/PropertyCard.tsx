@@ -30,7 +30,7 @@ export default function PropertyCard({
     <Link
       href={`/properties/${property.slug.current}`}
       className={cn(
-        "group relative flex flex-col rounded-2xl overflow-hidden bg-card border border-border",
+        "group relative flex flex-col rounded-2xl overflow-hidden bg-card border border-border bg-white",
         "card-hover opacity-0 animate-fade-in",
         className
       )}

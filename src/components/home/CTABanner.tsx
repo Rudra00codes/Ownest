@@ -5,7 +5,7 @@ import AnimatedContent from "@/components/ui/animation/animatedContent";
 
 export default function CTABanner() {
   return (
-    <div className="py-12 px-4 md:px-8">
+    <div className="py-12 px-4 md:px-8 bg-black ">
       <section className="relative mx-auto max-w-7xl rounded-[2rem] overflow-hidden py-24 md:py-32 shadow-2xl">
         {/* Background Video */}
         <div className="absolute inset-0">
