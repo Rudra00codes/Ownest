@@ -77,7 +77,7 @@ export default function ContactPage() {
         backgroundImage="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1920&q=80"
       />
 
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-background bg-black">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-16">
             {/* Form */}
