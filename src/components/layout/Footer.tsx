@@ -54,9 +54,9 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-royal-dark text-white overflow-hidden">
-      {/* Decorative gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-royal-primary/20 to-transparent pointer-events-none" />
+    <footer className="relative text-white overflow-hidden">
+      {/* Radial Gradient Background */}
+      <div className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-royal-secondary/50 to-transparent" />
 
       <div className="relative container mx-auto px-4 pt-16 pb-8">
